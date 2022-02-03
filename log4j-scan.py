@@ -32,9 +32,7 @@ except Exception:
     pass
 
 
-cprint('[•] CVE-2021-44228 - Apache Log4j RCE Scanner', "green")
-cprint('[•] Scanner provided by FullHunt.io - The Next-Gen Attack Surface Management Platform.', "yellow")
-cprint('[•] Secure your External Attack Surface with FullHunt.io.', "yellow")
+cprint('[-] CVE-2021-44228 - Apache Log4j RCE Scanner', "green")
 
 if len(sys.argv) <= 1:
     print('\n%s -h for help.' % (sys.argv[0]))
@@ -42,7 +40,7 @@ if len(sys.argv) <= 1:
 
 
 default_headers = {
-    'User-Agent': 'log4j-scan (https://github.com/mazen160/log4j-scan)',
+    'User-Agent': 'log4j-scan (https://github.com/jopbakker/log4j-scan)',
     # 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36',
     'Accept': '*/*'  # not being tested to allow passing through checks on Accept header in older web-servers
 }
@@ -311,11 +309,11 @@ def scan_url(url, callback_host):
         payloads.extend(generate_waf_bypass_payloads(f'{parsed_url["host"]}.{callback_host}', random_string))
 
     if args.cve_2021_45046:
-        cprint(f"[•] Scanning for CVE-2021-45046 (Log4j v2.15.0 Patch Bypass - RCE)", "yellow")
+        cprint(f"[-] Scanning for CVE-2021-45046 (Log4j v2.15.0 Patch Bypass - RCE)", "yellow")
         payloads = get_cve_2021_45046_payloads(f'{parsed_url["host"]}.{callback_host}', random_string)
 
     for payload in payloads:
-        cprint(f"[•] URL: {url} | PAYLOAD: {payload}", "cyan")
+        cprint(f"[+] URL: {url} | PAYLOAD: {payload}", "cyan")
 
         if args.request_type.upper() == "GET" or args.run_all_tests:
             try:
@@ -374,10 +372,10 @@ def main():
 
     dns_callback_host = ""
     if args.custom_dns_callback_host:
-        cprint(f"[•] Using custom DNS Callback host [{args.custom_dns_callback_host}]. No verification will be done after sending fuzz requests.")
+        cprint(f"[-] Using custom DNS Callback host [{args.custom_dns_callback_host}]. No verification will be done after sending fuzz requests.")
         dns_callback_host = args.custom_dns_callback_host
     else:
-        cprint(f"[•] Initiating DNS callback server ({args.dns_callback_provider}).")
+        cprint(f"[+] Initiating DNS callback server ({args.dns_callback_provider}).")
         if args.dns_callback_provider == "interact.sh":
             dns_callback = Interactsh()
         elif args.dns_callback_provider == "dnslog.cn":
@@ -386,21 +384,21 @@ def main():
             raise ValueError("Invalid DNS Callback provider")
         dns_callback_host = dns_callback.domain
 
-    cprint("[%] Checking for Log4j RCE CVE-2021-44228.", "magenta")
+    cprint("[-] Checking for Log4j RCE CVE-2021-44228.", "magenta")
     for url in urls:
-        cprint(f"[•] URL: {url}", "magenta")
+        cprint(f"[+] URL: {url}", "magenta")
         scan_url(url, dns_callback_host)
 
     if args.custom_dns_callback_host:
-        cprint("[•] Payloads sent to all URLs. Custom DNS Callback host is provided, please check your logs to verify the existence of the vulnerability. Exiting.", "cyan")
+        cprint("[!] Payloads sent to all URLs. Custom DNS Callback host is provided, please check your logs to verify the existence of the vulnerability. Exiting.", "cyan")
         return
 
-    cprint("[•] Payloads sent to all URLs. Waiting for DNS OOB callbacks.", "cyan")
-    cprint("[•] Waiting...", "cyan")
+    cprint("[-] Payloads sent to all URLs. Waiting for DNS OOB callbacks.", "cyan")
+    cprint("[-] Waiting...", "cyan")
     time.sleep(int(args.wait_time))
     records = dns_callback.pull_logs()
     if len(records) == 0:
-        cprint("[•] Targets do not seem to be vulnerable.", "green")
+        cprint("[+] Targets do not seem to be vulnerable.", "green")
     else:
         cprint("[!!!] Targets Affected", "yellow")
         for i in records:
