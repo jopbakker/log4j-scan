@@ -104,7 +104,7 @@ sudo docker build -t log4j-scan .
 sudo docker run -it --rm log4j-scan
 
 # With URL list "urls.txt" in current directory
-docker run -it --rm -v $PWD:/data log4j-scan -l /data/urls.txt
+docker run -it --rm -v ${PWD}\mount\:/mount log4j-scan -l /mount/urls.txt
 ```
 
 # Legal Disclaimer
