@@ -35,7 +35,7 @@ except Exception:
 
 now = datetime.now()
 dt_string = now.strftime('%Y%m%dT%H%M')
-logfile='mount/log4jscan-'+dt_string+'.log'
+logfile='/mount/log4jscan-'+dt_string+'.log'
 logging.basicConfig(filename=logfile, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y/%m/%dT%H:%M:%S', level=logging.INFO)
 
 cprint('[-] CVE-2021-44228 - Apache Log4j RCE Scanner', "green")

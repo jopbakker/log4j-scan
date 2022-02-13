@@ -14,13 +14,6 @@
 - WAF Bypass payloads.
 
 ---
-# 🚨 Announcement
-
-There is a patch bypass on Log4J v2.15.0 that allows a full RCE. FullHunt added community support for log4j-scan to reliably detect CVE-2021-45046. If you're having difficulty discovering and scanning your infrastructure at scale or keeping up with the Log4J threat, please get in touch at (team@fullhunt.io).
-
-![](https://dkh9ehwkisc4.cloudfront.net/static/files/d385f9d8-e2b1-4d72-b9c2-a62c4c1c34a0-Screenshot-cve-2021-45046-demo.png)
-
----
 
 # Description
 
@@ -105,7 +98,7 @@ $ pip3 install -r requirements.txt
 # Docker Support
 
 ```shell
-git clone https://github.com/fullhunt/log4j-scan.git
+git clone https://github.com/jopbakker/log4j-scan.git
 cd log4j-scan
 sudo docker build -t log4j-scan .
 sudo docker run -it --rm log4j-scan
@@ -113,12 +106,6 @@ sudo docker run -it --rm log4j-scan
 # With URL list "urls.txt" in current directory
 docker run -it --rm -v $PWD:/data log4j-scan -l /data/urls.txt
 ```
-
-# About FullHunt
-
-FullHunt is the next-generation attack surface management platform. FullHunt enables companies to discover all of their attack surfaces, monitor them for exposure, and continuously scan them for the latest security vulnerabilities. All, in a single platform, and more.
-
-FullHunt provides an enterprise platform for organizations. The FullHunt Enterprise Platform provides extended scanning and capabilities for customers. FullHunt Enterprise platform allows organizations to closely monitor their external attack surface, and get detailed alerts about every single change that happens. Organizations around the world use the FullHunt Enterprise Platform to solve their continuous security and external attack surface security challenges.
 
 # Legal Disclaimer
 This project is made for educational and ethical testing purposes only. Usage of log4j-scan for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program.
